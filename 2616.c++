@@ -16,7 +16,7 @@ int main(){
     }
 
     cin >> k;
-	\
+	
     for(int i = 1; i <= 3; i++){\
         for(int j = i * k; j <= n; j++){
                 dp[i][j] = max(dp[i][j-1], dp[i-1][j-k] + ps[j] - ps[j-k]);
