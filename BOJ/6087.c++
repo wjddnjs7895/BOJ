@@ -6,36 +6,38 @@
 
 using namespace std;
 
-int W, H, SY = -1, SX = -1, EY, EX, MIN = 789654321, visited[101][101];
+int W, H, SY = -1, SX = -1, EY, EX, visited[101][101][4], cntarr[101][101];
 char board[101][101];
 
 int dy[4] = {1, -1, 0, 0};
 int dx[4] = {0, 0, 1, -1};
 
 int bfs() {
-  queue<pair<pair<int,int>, pair<int,int>>> PQ;
-  PQ.push({{SY, SX},{0,0}});
+  queue<pair<pair<int,int>, pair<int,int>>> Q;
+  Q.push({{SY, SX},{0,0}});
 
-  while(!PQ.empty()) {
-    int y = PQ.front().first.first;
-    int x = PQ.front().first.second;
-    int dir = PQ.front().second.first;
-    int cnt = PQ.front().second.second;
-    PQ.pop();
+  while(!Q.empty()) {
+    int y = Q.front().first.first;
+    int x = Q.front().first.second;
+    int dir = Q.front().second.first;
+    int cnt = Q.front().second.second;
+    Q.pop();
 
     for (int i = 0; i < 4; ++i) {
       int ny = y + dy[i];
       int nx = x + dx[i];
-      int c = dir == i ? cnt : cnt + 1;
+      int c = (dir == i || (y == SY && x == SX)) ? cnt : cnt + 1;
       if (ny < 0 || ny >= H || nx < 0 || nx >= W) continue;
       if (board[ny][nx] == '*') continue;
-      if (visited[ny][nx] > c) {
-        visited[ny][nx] = c;
-        PQ.push({{ny, nx}, {i, c}});
+      if (cntarr[ny][nx] >= c) {
+        if (cntarr[ny][nx] == c && visited[ny][nx][i]) continue;
+        cntarr[ny][nx] = c;
+        visited[ny][nx][i] = true;
+        Q.push({{ny, nx}, {i, c}});
       }
     }
   }
-  return visited[EY][EX];
+  return cntarr[EY][EX];
 }
 
 int main() {
@@ -58,7 +60,7 @@ int main() {
           EX = x;
         }
       }
-      visited[y][x] = INF;
+      cntarr[y][x] = INF;
     }
   }
   cout << bfs() << endl;
