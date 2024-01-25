@@ -5,7 +5,7 @@
 using namespace std;
 
 string N;
-bool visited[1000000];
+bool visited[1000001];
 int K, MAX = -1;
 
 void bfs() {
@@ -18,7 +18,7 @@ void bfs() {
     Q.pop();
 
     if (visited[stoi(cn)]) continue;
-    if ((K - cnt) % 2 == 0) {
+    if ((K - cnt) % 2 == 0 && cnt != 0) {
       MAX = max(MAX, stoi(cn));
       visited[stoi(cn)] = true;
     }
