@@ -3,38 +3,17 @@
 
 using namespace std;
 
-int N;
+int N, length = 3, midLength = 4;
+string str = "moo";
 
-pair<int,int> getPreNumLen(int num) {
-  int pNum = 0, length = 3;
-  while (length < num) {
-    int temp;
-    temp = length * 2 + pNum + 4;
-    if (temp < num) {
-      pNum++;
-      length = temp;
-    } else break;
-  }
-  return {pNum, length};
-}
-
-void solve(int num) {
-  if (num == 1) {
-    cout << 'm' << endl;
-    return;
-  } else if (N <= 3) {
-    cout << 'o' << endl;
-    return;
-  }
-  pair<int,int> pNumLen = getPreNumLen(num);
-  int pNum = pNumLen.first;
-  int pLen = pNumLen.second;
-  if (pLen == num) cout << 'o' << endl;
-  else if (pLen + 1 == num) cout << 'm' << endl;
-  else if (pLen + pNum + 5 == num) cout << 'm' << endl;
-  else {
-    solve(num - pLen - pNum - 4);
-  }
+void recur(int totalLen, int midLen, int num) {
+  if (totalLen <= 3) str[num - 1];
+  int preLen = (totalLen - midLen) / 2;
+  if (num <= preLen) recur(preLen, midLen - 1, num);
+  else if (num <= preLen + midLen) {
+    if (num - preLen == 1) cout << 'm' << endl;
+    else cout << 'o' << endl;
+  } else recur(preLen, midLen - 1, num - preLen - midLen);
 }
 
 int main() {
@@ -42,5 +21,10 @@ int main() {
   cin.tie(0);
 
   cin >> N;
-  solve(N);
+
+  while (length < N) {
+    length = length * 2 + midLength;
+    midLength++;
+  }
+  recur(length, midLength - 1, N);
 }
