@@ -13,13 +13,12 @@ void check_print(int x, int y, int color) {
 }
 
 void func(int floor, int posX, int posY, int color) {
-  int unit = pow(N, S-floor)/3;
+  int unit = pow(N, S-floor)/N;
   if (floor == S) {
     check_print(posX, posY, color);
     return;
   }
-  //기저사항 수정 요망
-  if (posY + unit*3 < R1 || posX + unit*3 < C1 || posY > R2 || posX > C2) return;
+  if (posY + unit*N < R1 || posX + unit*N < C1 || posY > R2 || posX > C2) return;
   for (int y = 0; y < N; ++y) {
     for (int x = 0; x < N; ++x) {
       if (color == 1)
