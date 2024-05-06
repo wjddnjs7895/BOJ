@@ -30,7 +30,8 @@ int main() {
 
   cin >> T;
   for (int i = 0; i < T; ++i) {
-    vector<int> preorder, inorder;
+    preorder.clear();
+    inorder.clear();
     cin >> N;
     int temp;
     for (int j = 0; j < N; ++j) {
