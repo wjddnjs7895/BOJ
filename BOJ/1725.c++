@@ -17,7 +17,7 @@ int func(int left, int right) {
   ret = max(ret, max(func(left, mid), func(mid+1, right)));
 
   while (tempLeft > left || tempRight < right) {
-    if (tempLeft == left || V[tempLeft - 1] < V[tempRight + 1]) {
+    if (tempRight < right && (tempLeft == left || V[tempLeft - 1] < V[tempRight + 1])) {
       tempRight += 1;
       height = min(height, V[tempRight]);
     } else {
