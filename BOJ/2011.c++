@@ -1,5 +1,3 @@
-//cache[idx] => idx까지 가능한 해석의 수
-
 #include <iostream>
 #include <cstring>
 
@@ -8,49 +6,28 @@ using namespace std;
 string code;
 int cache[5001];
 
-int check(int idx) {
-  if (idx + 1 >= code.length() || idx < 0) return 0;
-  string temp = "";
-  temp += code[idx];
-  temp += code[idx + 1];
-  int num = stoi(temp);
-  if (num <= 26) return 2;
-  else return 1;
+void solve() {
+  for (int idx = 0; idx < code.length(); ++idx) {
+    int temp;
+    if (idx >= 1) {
+      string str = "";
+      str += code[idx-1];
+      str += code[idx];
+      if (stoi(str) >= 10 && stoi(str) <= 26) cache[idx + 1] += cache[idx-1];
+    }
+    if (code[idx] != '0') cache[idx + 1] += cache[idx];
+    cache[idx + 1] %= 1000000;
+  }
+  cout << cache[code.length()];
 }
 
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(0);
-
   memset(cache, 0, sizeof(cache));
+  cache[0] = 1;
 
   cin >> code;
-
-  cache[0] = 1;
-  if (code[1] == '0') {
-    cache[1] = code[0] == '1' || code[0] == '2' ? 1 : -1;
-  } else cache[1] = check(1);
-
-  if (cache[1] == -1) {
-    cout << 0 << endl;
-    return 0;
-  }
-
-  for (int i = 2; i < code.length(); ++i) {
-    if (code[i] == '0') {
-      if (code[i - 1] == '1' || code[i - 1] == '2') {
-        cache[i] = cache[i-2];
-        continue;
-      } else {
-        cout << 0 << endl;
-        return 0;
-      }
-    }
-    if (check(i - 1) == 2) cache[i] = cache[i - 2] + cache[i - 1];
-    else cache[i] = cache[i - 1];
-    cache[i] %= 1000000;
-  }
-
-  cout << cache[code.length() - 1] << endl;
-
+  
+  solve();
 }
