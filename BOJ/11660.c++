@@ -11,6 +11,8 @@ int main() {
 
   cin >> N >> M;
 
+  memset(sumBoard, 0, sizeof(sumBoard));
+
   for (int y = 1; y <= N; ++y) {
     for (int x = 1; x <= N; ++x) {
       cin >> board[y][x];
@@ -24,6 +26,6 @@ int main() {
   for (int i = 0; i < M; ++i) {
     int x1, y1, x2, y2;
     cin >> x1 >> y1 >> x2 >> y2;
-    cout << sumBoard[x2][y2] - sumBoard[x1][y2] - sumBoard[x2][y1] + sumBoard[x1][y1] << endl;
+    cout << sumBoard[x2][y2] - sumBoard[x1-1][y2] - sumBoard[x2][y1-1] + sumBoard[x1-1][y1-1] << '\n';
   }
 }
