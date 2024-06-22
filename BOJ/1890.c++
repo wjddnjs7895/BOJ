@@ -3,16 +3,19 @@
 
 #define INF 987654321
 
+typedef long long ll;
+
 using namespace std;
 
-int N, board[101][101], cache[101][101];
+int N, board[101][101];
+ll cache[101][101];
 
-int recur(int y, int x) {
+ll recur(int y, int x) {
   if (y == N - 1 && x == N - 1) return 1;
   if (y >= N || x >= N) return 0;
   if (board[y][x] == 0) return 0;
 
-  int& ret = cache[y][x];
+  ll& ret = cache[y][x];
 
   if (ret != 0) return ret;
 
