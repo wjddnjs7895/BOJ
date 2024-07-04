@@ -2,10 +2,13 @@
 
 using namespace std;
 
-int N, X, answer = 0;
+typedef long long LL;
 
-int solve(int length) {
-  int temp = 1, result = 1;
+LL N, X;
+LL answer = 0;
+
+LL solve(LL length) {
+  LL temp = 1, result = 1;
   while (temp < length) {
     result = 2 * result + 1;
     temp = 2 * temp + 3;
@@ -13,21 +16,18 @@ int solve(int length) {
   return result;
 }
 
-void recur(int length, int counting) {
-  cout << "length : " << length << " / counting : " << counting << endl;
-  if (counting <= 1) {
-    cout << answer << endl;
+void recur(LL length, LL counting) {
+  if (length == 1) {
+    if (counting > 0) answer += 1;
     return;
-  } else if (counting == length) {
-    answer += solve(length);
   }
-  int preLength = (length - 3)/2;
-  if (counting > preLength + 2) {
+  LL preLength = (length - 3)/2;
+  if (counting < preLength + 2) {
     recur(preLength, counting - 1);
   } else if (counting == preLength + 2) {
-    recur(preLength + 2, counting);
+    answer += (solve(preLength) + 1);
   } else {
-    answer += solve(preLength);
+    answer += (solve(preLength) + 1);
     recur(preLength, counting - preLength - 2);
   }
 }
@@ -38,15 +38,12 @@ int main() {
 
   cin >> N >> X;
 
-  int length = 1;
-  while (1) {
+  LL length = 1;
+  for (int i = 0; i < N; ++i) {
     length = 2 * length + 3;
-    if (length > X) {
-      length = (length - 3)/2;
-      break;
-    }
-    answer += 2 * answer + 1;
   }
 
-  recur(length, X - length);
+  recur(length, X);
+
+  cout << answer << endl;
 }
